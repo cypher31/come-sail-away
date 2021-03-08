@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://main_char_prototype/main_char_prototype.tscn" type="PackedScene" id=1]
+
+[node name="main" type="Control"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="scene_curr" type="CenterContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="main_char" parent="scene_curr" instance=ExtResource( 1 )]
+position = Vector2( 477.522, 258.361 )
+
+[node name="scene_holder" type="CenterContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

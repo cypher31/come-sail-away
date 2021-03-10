@@ -101,6 +101,7 @@ tracks/2/keys = {
 [node name="main_char" type="Node2D"]
 
 [node name="sprite_base" type="Sprite" parent="."]
+visible = false
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 
@@ -111,7 +112,6 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
 
 [node name="sprite_att_2" type="Sprite" parent="."]
-visible = false
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 

@@ -9,7 +9,6 @@
 [sub_resource type="Animation" id=1]
 resource_name = "att_2"
 length = 0.4
-step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite_att_1:visible")
 tracks/0/interp = 1
@@ -17,10 +16,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.4 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, false, false ]
+"values": [ true, false, false ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("sprite_att_1:position")
@@ -53,10 +52,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1, 0.4 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, true, true ]
+"values": [ false, true, true ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("area2d_att_2/coll_poly_att_2:visible")
@@ -65,10 +64,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, true ]
+"values": [ false, true, true ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("area2d_att_2/coll_poly_att_2:disabled")
@@ -77,10 +76,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ true, false, false ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("area2d_att_1/coll_poly_att_1:disabled")
@@ -89,10 +88,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, true ]
+"values": [ false, true, true ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("area2d_att_1/coll_poly_att_1:visible")
@@ -101,10 +100,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, false ]
+"values": [ true, false, false ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -203,11 +202,11 @@ height = 85.3912
 script = ExtResource( 5 )
 
 [node name="sprite_base" type="Sprite" parent="."]
+visible = false
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 
 [node name="sprite_att_1" type="Sprite" parent="."]
-visible = false
 position = Vector2( 2.82843, -10.2748 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
@@ -236,10 +235,8 @@ shape = SubResource( 3 )
 [node name="area2d_att_1" type="Area2D" parent="."]
 
 [node name="coll_poly_att_1" type="CollisionPolygon2D" parent="area2d_att_1"]
-visible = false
 position = Vector2( -29.0109, 18.7099 )
 polygon = PoolVector2Array( 49.7832, -29.6862, 68.512, 11.3299, 65.3281, 12.8283, 45.8501, -27.4387 )
-disabled = true
 
 [node name="area2d_att_2" type="Area2D" parent="."]
 

@@ -38,54 +38,89 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	var time_left = turn_timer.get_time_left()
 	# Movement handling
-	if Input.is_action_pressed("north"):
-		direction.x = 0
-		direction.y = -1
-		moving = true
-		turn_timer.set_paused(false)
-	elif Input.is_action_pressed("south"):
-		direction.x = 0
-		direction.y = 1
-		moving = true
-		turn_timer.set_paused(false)
-	elif Input.is_action_pressed("east"):
-		direction.x = 1
-		direction.y = 0
-		moving = true
-		turn_timer.set_paused(false)
-	elif Input.is_action_pressed("west"):
-		direction.x = -1
-		direction.y = 0
-		moving = true
-		turn_timer.set_paused(false)
+	if time_left > 0.01:
+		if Input.is_action_pressed("north"):
+			direction.x = 0
+			direction.y = -1
+			moving = true
+			turn_timer.set_paused(false)
+		elif Input.is_action_pressed("south"):
+			direction.x = 0
+			direction.y = 1
+			moving = true
+			turn_timer.set_paused(false)
+		elif Input.is_action_pressed("east"):
+			direction.x = 1
+			direction.y = 0
+			moving = true
+			turn_timer.set_paused(false)
+		elif Input.is_action_pressed("west"):
+			direction.x = -1
+			direction.y = 0
+			moving = true
+			turn_timer.set_paused(false)
+		else:
+			direction.x = 0
+			direction.y = 0
+			moving = false
+			turn_timer.set_paused(true)
 	else:
-		direction.x = 0
-		direction.y = 0
-		moving = false
-		turn_timer.set_paused(true)
+			#end turn here
+			direction.x = 0
+			direction.y = 0
+			moving = false
+			turn_timer.set_paused(true)
 		
 	var velocity : Vector2 = direction * SPEED
 	
 	var collision : KinematicCollision2D = move_and_collide(velocity)
 	
-	#attack animations
-	if !moving:
+	#attack animations - only work if enough time is left on timer
+	if !moving and time_left > 0.01:
 		if Input.is_action_just_pressed("attack_basic") and anim_player.get_current_animation() == "idle":
 			anim_player.play("att_1")
+			var wait_time = turn_timer.get_time_left()
+			var new_time : float = wait_time - 0.25
+			
+			if new_time <= 0:
+				new_time = 0.01
+			
 			turn_timer.set_paused(false)
+			turn_timer.set_wait_time(new_time)
+			turn_timer.start()
 		elif Input.is_action_just_pressed("attack_basic") and anim_player.get_current_animation() == "att_1":
 			anim_player.play("att_2")
+			var wait_time = turn_timer.get_time_left()
+			var new_time : float = wait_time - 0.25
+			
+			if new_time <= 0:
+				new_time = 0.01
+			
 			turn_timer.set_paused(false)
+			turn_timer.set_wait_time(new_time)
+			turn_timer.start()
 		elif !anim_player.is_playing():
 			anim_player.play("idle")
 			turn_timer.set_paused(true)
+			pass
 			
 	
-	#turn handling
+	#turn handling - 
 	if !turn_timer.paused:
 		print(turn_timer.get_time_left())
 	
+	if time_left <= 0.01:
+		print("TURN OVER")
+	
+	#collision handling
+	if collision and !utility.stage_current == "stage_battle":
+		var object = collision.collider
+		print("COLLIDINE")
+		if object.is_in_group("enemy"):
+			utility.stage_switch("stage_battle")
+		pass
 	pass
 	
 func _anim_finished(animation):

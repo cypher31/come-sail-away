@@ -1,4 +1,5 @@
 extends KinematicBody2D
+#may use enemies to pass info to battle stage
 
 #enemy stats
 var health = 10
@@ -26,6 +27,9 @@ func _enemy_hit(attack_strength):
 		
 		print("DAMAGE: " + str(damage_clamped))
 		print("HEALTH LEFT: " + str(health))
+		
+		if health <= 0:
+			queue_free()
 	else:
 		queue_free()
 	return

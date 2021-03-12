@@ -19,6 +19,10 @@ config/name="come-sail-away"
 run/main_scene="res://main/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+utility="*res://utility.gd"
+
 [display]
 
 window/size/width=960

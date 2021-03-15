@@ -199,6 +199,7 @@ tracks/6/keys = {
 height = 85.3912
 
 [node name="main_char" type="KinematicBody2D"]
+collision_mask = 2
 script = ExtResource( 5 )
 
 [node name="sprite_base" type="Sprite" parent="."]

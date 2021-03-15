@@ -110,16 +110,22 @@ func _physics_process(delta):
 	#turn handling - 
 	if !turn_timer.paused:
 		print(turn_timer.get_time_left())
+		pass
 	
 	if time_left <= 0.01:
 		print("TURN OVER")
-	
+		pass
+		
+	if !utility.stage_current == "stage_battle":
+		turn_timer.set_paused(true)
+		pass
+		
 	#collision handling
 	if collision and !utility.stage_current == "stage_battle":
 		var object = collision.collider
 		print("COLLIDINE")
 		if object.is_in_group("enemy"):
-			utility.stage_switch("stage_battle")
+			utility.stage_battle_switch()
 		pass
 	pass
 	

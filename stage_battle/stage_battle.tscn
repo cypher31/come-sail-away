@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://stage_battle/stage_battle.gd" type="Script" id=1]
-[ext_resource path="res://main_char_prototype/main_char_prototype.tscn" type="PackedScene" id=2]
-[ext_resource path="res://enemy_base/enemy_base.tscn" type="PackedScene" id=3]
 
 [node name="stage_battle" type="Node2D"]
 pause_mode = 2
@@ -17,9 +15,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="main_char" parent="half_player" instance=ExtResource( 2 )]
-position = Vector2( 140.762, 270.833 )
-
 [node name="half_enemy" type="Container" parent="."]
 margin_left = 480.0
 margin_right = 960.0
@@ -29,9 +24,6 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-
-[node name="enemy_base" parent="half_enemy" instance=ExtResource( 3 )]
-position = Vector2( 293.997, 286.869 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0

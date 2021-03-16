@@ -4,6 +4,9 @@ extends KinematicBody2D
 #enemy stats
 var health = 10
 var armor = 0
+var speed = 5
+var turn_active : bool = false#variable to check if it is this characters turn or not
+var in_battle : bool #variablet to check if entity is in a battle or not
 
 onready var anim_player = $AnimationPlayer
 

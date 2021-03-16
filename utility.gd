@@ -17,21 +17,13 @@ var enemy_prototype = preload("res://enemy_base/enemy_base.tscn")
 var dict_all_enemy : Dictionary = {"enemy_prototype" : enemy_prototype}
 
 var dict_battle_enemies : Dictionary = {
-	"enemy_0" : null,
-	"enemy_1" : null,
-	"enemy_2" : null,
-	"enemy_3" : null,
-	"enemy_4" : null,
-	"enemy_5" : null,
-	"enemy_6" : null,
-	"enemy_7" : null,
-	"enemy_8" : null,
-	"enemy_9" : null,
+
 	}
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	pass # Replace with function body.
 
 
@@ -41,7 +33,6 @@ func spawn_battle(party, enemies, stage):
 	dict_battle_enemies.enemy_1 = dict_all_enemy.enemy_prototype
 	dict_battle_enemies.enemy_2 = dict_all_enemy.enemy_prototype
 	dict_battle_enemies.enemy_3 = dict_all_enemy.enemy_prototype
-	dict_battle_enemies.enemy_4 = dict_all_enemy.enemy_prototype
 	#END PROTOTYPE ENEMY DICT
 	
 	var parent = stage_main.get_node("scene_curr").get_node("stage_battle")
@@ -53,8 +44,8 @@ func spawn_battle(party, enemies, stage):
 	var parent_characters_size = parent_characters.get_rect().size
 	
 	var i : int = 0
-	for character in dict_party:
-		var instance_to_spawn = dict_party[character].instance()
+	for character in party:
+		var instance_to_spawn = party[character].instance()
 		var spawn_area_center : Vector2 = parent_characters_size / 2
 		var position : Vector2
 		var pos_mod_x
@@ -66,11 +57,37 @@ func spawn_battle(party, enemies, stage):
 			pos_mod_x = 0
 		
 		position = Vector2(spawn_area_center.x + pos_mod_x, spawn_area_center.y + pos_mod_y)
-		
+		parent.all_battle_entities[i] = instance_to_spawn
 		i += 1
-		
+
+		instance_to_spawn.position = position
+		instance_to_spawn.in_battle = true
 		parent_characters.add_child(instance_to_spawn)
-		instance_to_spawn.position = position  
+		pass
+		
+	var j : int = 0
+	for enemy in enemies:
+		var instance_to_spawn = enemies[enemy].instance()
+		var spawn_area_center : Vector2 = parent_enemy_size / 2
+		var position : Vector2
+		var pos_mod_x
+		var pos_mod_y =  - 150 + j * 100
+		
+		if i % 2 == 0:
+			pos_mod_x = -75
+		else:
+			pos_mod_x = 0
+		
+		position = Vector2(spawn_area_center.x + pos_mod_x, spawn_area_center.y + pos_mod_y)
+		parent.all_battle_entities[i+j] = instance_to_spawn
+		j += 1
+		
+		instance_to_spawn.in_battle = true
+		instance_to_spawn.position = position
+		parent_enemy.add_child(instance_to_spawn)
+		pass
+	
+	parent._turn_manager()
 	return
 	
 func stage_switch(stage_name):

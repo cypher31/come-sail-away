@@ -3,8 +3,10 @@ extends KinematicBody2D
 var my_turn : bool = false #check if it is the characters turn or not
 var moving : bool = false #check if player is moving, can't attack while moving
 var direction : Vector2 = Vector2(0,0)
+var fainted : bool #check if unit has lost all HP and needs revive
 var timer_attack #variable to hold the timers created to check for attack timing
 var turn_active : bool #variable to check if it is this characters turn or not
+var turn_count : int #variable to check what key this entity was given to remove from turn dict
 var in_battle : bool = false #variable to check if entity is in a battle
 
 #character stats
@@ -16,23 +18,13 @@ var turn_timer : Timer
 
 onready var anim_player = $AnimationPlayer
 
-const SPEED = 5
-
 # need a signal to tell the character when it is their turn
 func _ready():
 	anim_player.set_current_animation("idle")
 	anim_player.connect("animation_finished", self, "_anim_finished")
 	
 	#turn time calc
-	var turn_time : float = 4.0 + speed / 10.0
-	
-	turn_timer = Timer.new()
-	turn_timer.set_wait_time(turn_time)
-	turn_timer.set_one_shot(true)
-	add_child(turn_timer)
-	
-	if in_battle:
-		turn_timer.start()
+	_new_timer()
 	
 	#connections
 	$area2d_att_1.connect("body_entered", self, "_attack_collision")
@@ -44,6 +36,8 @@ func _ready():
 func _physics_process(delta):
 	if !turn_active:
 		turn_timer.set_paused(true)
+	else:
+		turn_timer.set_paused(false)
 	
 	var time_left = turn_timer.get_time_left()
 	
@@ -98,7 +92,7 @@ func _physics_process(delta):
 			moving = false
 			turn_timer.set_paused(true)
 		
-	var velocity : Vector2 = direction * SPEED
+	var velocity : Vector2 = direction * speed
 	
 	var collision : KinematicCollision2D = move_and_collide(velocity)
 		
@@ -138,7 +132,11 @@ func _physics_process(delta):
 		pass
 	
 	if time_left <= 0.01 and in_battle:
-		print("TURN OVER")
+		direction.x = 0
+		direction.y = 0
+		moving = false
+		turn_timer.set_paused(true)
+		_next_turn()
 		pass
 		
 	if !utility.stage_current == "stage_battle":
@@ -164,4 +162,27 @@ func _attack_collision(body):
 		body._enemy_hit(strength)
 		print("HIT!")
 		pass
+	return
+	
+func _next_turn():
+	#reset timer
+	_new_timer()
+	
+	turn_active = false
+	utility.emit_signal("turn_over", turn_count)
+	return
+	
+	
+func _new_timer():
+	var turn_time : float = 4.0 + speed / 10.0
+	
+	turn_timer = Timer.new()
+	turn_timer.set_wait_time(turn_time)
+	turn_timer.set_one_shot(true)
+	add_child(turn_timer)
+	
+	if in_battle:
+		turn_timer.start()
+		
+	set_physics_process(true)
 	return

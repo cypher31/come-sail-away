@@ -1,5 +1,11 @@
 extends Node
 #global script for common methods and signals
+
+#signals
+signal turn_over #emitted when an entities turn is over
+signal entity_hp_zero #emitted when an entities hp drops to zero
+
+#variables
 var stage_current : String #hold what stage is currently used
 var stage_main
 var stage_battle = preload("res://stage_battle/stage_battle.tscn")
@@ -31,8 +37,8 @@ func spawn_battle(party, enemies, stage):
 	#PROTOTYPE ENEMY DICT
 	dict_battle_enemies.enemy_0 = dict_all_enemy.enemy_prototype
 	dict_battle_enemies.enemy_1 = dict_all_enemy.enemy_prototype
-	dict_battle_enemies.enemy_2 = dict_all_enemy.enemy_prototype
-	dict_battle_enemies.enemy_3 = dict_all_enemy.enemy_prototype
+#	dict_battle_enemies.enemy_2 = dict_all_enemy.enemy_prototype
+#	dict_battle_enemies.enemy_3 = dict_all_enemy.enemy_prototype
 	#END PROTOTYPE ENEMY DICT
 	
 	var parent = stage_main.get_node("scene_curr").get_node("stage_battle")
@@ -73,7 +79,7 @@ func spawn_battle(party, enemies, stage):
 		var pos_mod_x
 		var pos_mod_y =  - 150 + j * 100
 		
-		if i % 2 == 0:
+		if j % 2 == 0:
 			pos_mod_x = -75
 		else:
 			pos_mod_x = 0

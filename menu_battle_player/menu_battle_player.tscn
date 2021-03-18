@@ -1,0 +1,209 @@
+[gd_scene format=2]
+
+[node name="menu_battle_player" type="MarginContainer"]
+margin_right = 290.0
+margin_bottom = 540.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 10
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 20.0
+margin_top = 366.0
+margin_right = 270.0
+margin_bottom = 520.0
+rect_min_size = Vector2( 250, 150 )
+size_flags_vertical = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 243.0
+margin_bottom = 147.0
+
+[node name="bar_hp" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
+margin_right = 236.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+step = 1.0
+rounded = true
+percent_visible = false
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/bar_hp"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_bottom = 7.0
+size_flags_horizontal = 3
+text = "HP: X/XXXX"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bar_action" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 236.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 0, 20 )
+step = 1.0
+rounded = true
+percent_visible = false
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/bar_action"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_bottom = 7.0
+size_flags_horizontal = 3
+text = "AP: X/XXXX"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bar_resource" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 236.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 0, 20 )
+step = 1.0
+rounded = true
+percent_visible = false
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/bar_resource"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_bottom = 7.0
+size_flags_horizontal = 3
+text = "FR/MP: X/XXXX"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 72.0
+margin_right = 236.0
+margin_bottom = 140.0
+size_flags_vertical = 3
+
+[node name="menu" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+margin_right = 116.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+
+[node name="button_abilities" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/menu"]
+margin_right = 116.0
+margin_bottom = 20.0
+size_flags_vertical = 3
+text = "Abilities"
+flat = true
+align = 2
+
+[node name="button_sp_abilities" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/menu"]
+margin_top = 24.0
+margin_right = 116.0
+margin_bottom = 44.0
+size_flags_vertical = 3
+text = "SP Abilities"
+flat = true
+align = 2
+
+[node name="button_items" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/menu"]
+margin_top = 48.0
+margin_right = 116.0
+margin_bottom = 68.0
+size_flags_vertical = 3
+text = "Items"
+flat = true
+align = 2
+
+[node name="selection" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 120.0
+margin_right = 236.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+
+[node name="pop_abilities" type="PopupPanel" parent="PanelContainer/VBoxContainer/HBoxContainer/selection"]
+visible = true
+margin_right = 116.0
+margin_bottom = 68.0
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_abilities"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_abilities/ScrollContainer"]
+margin_right = 108.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false ]
+
+[node name="pop_sp_abilities" type="PopupPanel" parent="PanelContainer/VBoxContainer/HBoxContainer/selection"]
+margin_top = 41.0
+margin_right = 116.0
+margin_bottom = 79.0
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_sp_abilities"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_sp_abilities/ScrollContainer"]
+margin_right = 108.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false ]
+
+[node name="pop_items" type="PopupPanel" parent="PanelContainer/VBoxContainer/HBoxContainer/selection"]
+margin_top = 55.0
+margin_right = 116.0
+margin_bottom = 79.0
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_items"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_items/ScrollContainer"]
+margin_right = 108.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false ]

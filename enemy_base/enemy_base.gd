@@ -2,7 +2,8 @@ extends KinematicBody2D
 #may use enemies to pass info to battle stage
 
 #enemy stats
-var health = 10
+var health : int = 10
+var health_points : int = health
 var armor = 0
 var speed = 5
 var direction : Vector2 = Vector2(-1,0)
@@ -53,17 +54,17 @@ func _physics_process(delta):
 	return
 
 func _enemy_hit(attack_strength):
-	if health > 0:
+	if health_points > 0:
 		var damage_calc = attack_strength - armor
 		var damage_clamped = clamp(damage_calc, 1, damage_calc)
 		
-		health -= damage_clamped
+		health_points -= damage_clamped
 		anim_player.play("hit")
 		
 		print("DAMAGE: " + str(damage_clamped))
-		print("HEALTH LEFT: " + str(health))
+		print("HEALTH LEFT: " + str(health_points))
 		
-		if health <= 0:
+		if health_points <= 0:
 			queue_free()
 			utility.emit_signal("entity_hp_zero", turn_count)
 	else:

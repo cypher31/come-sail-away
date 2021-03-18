@@ -19,7 +19,7 @@ func _ready():
 
 func _turn_manager(entities = all_battle_entities):
 	#turn manager for active members of the battle
-	
+	utility.connect("update_battle_menu", self, "_update_battle_menu")
 	#clear last round if any keys left over
 	dict_turn_order.clear()
 	
@@ -30,6 +30,7 @@ func _turn_manager(entities = all_battle_entities):
 	
 	first_turn.turn_active = true
 	first_turn.turn_count = dict_turn_order.keys().min()
+	utility.emit_signal("update_battle_menu", first_turn)
 	print("NEW TURN TIME")
 	return
 	
@@ -77,4 +78,35 @@ func _next_turn(key, turn_dict = dict_turn_order):
 	
 func _remove_turn(entity_key):
 	dict_turn_order.erase(entity_key)
+	return
+
+func _update_battle_menu(character):
+	var battle_menu = $container_menu/menu_battle_player
+	var bar_hp : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/bar_hp")
+	var bar_hp_label : Label = bar_hp.get_node("Label")
+	var bar_action : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/bar_action")
+	var bar_action_label : Label = bar_action.get_node("Label")
+	var bar_resource : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/bar_resource")
+	var bar_resource_label : Label = bar_resource.get_node("Label")
+	
+	#set hp bar
+	bar_hp.max_value = character.health
+	bar_hp.set_value(character.health_points)
+	var label_string_hp = "HP: %s/%s"
+	var final_string_hp = label_string_hp % [character.health_points, character.health]
+	bar_hp_label.set_text(final_string_hp)
+	
+	#set action bar
+	bar_action.max_value = character.action_max
+	bar_action.set_value(character.action_points)
+	var label_string_action = "AP: %s/%s"
+	var final_string_action = label_string_action % [character.action_points, character.action_max]
+	bar_action_label.set_text(final_string_action)
+	
+	#set resource bar
+	bar_resource.max_value = character.power
+	bar_resource.set_value(character.power_points_max)
+	var label_string_resource = "PP: %s/%s"
+	var final_string_resource = label_string_resource % [character.power_points, character.power_points_max]
+	bar_resource_label.set_text(final_string_resource)
 	return

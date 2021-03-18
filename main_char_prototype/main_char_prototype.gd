@@ -11,10 +11,28 @@ var in_battle : bool = false #variable to check if entity is in a battle
 
 #character stats
 var health : int = 25
+var power : int  = 2 #power, dex, frenzy, and magic are assigned based on character class
+var dexterity : int = 2
+var frenzy : int = 2
+var magic : int = 2
 var defense : int = 2
 var strength : int = 2 #character strength - used for damage calc
 var speed : int = 5 #character speed - used for turn time calc
+var action_max : int = (speed + strength) * 2 + dexterity
+var power_points_max : int = power * 4
+var magic_points_max : int = magic * 4
+var frenzy_points_max : int = frenzy * 4
+var dexterity_points_max : int = dexterity * 4
+
+#battle stats
+var health_points : int = health #health during battle
+var action_points : int = 0 #always starts at zero
+var magic_points : int = magic_points_max
+var frenzy_points : int = frenzy_points_max
+var dexterity_points : int = dexterity_points_max
+var power_points : int = power_points_max
 var turn_timer : Timer 
+var char_class : String #character base clas
 
 onready var anim_player = $AnimationPlayer
 

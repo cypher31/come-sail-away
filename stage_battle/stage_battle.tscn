@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://stage_battle/stage_battle.gd" type="Script" id=1]
+[ext_resource path="res://menu_battle_player/menu_battle_player.tscn" type="PackedScene" id=2]
 
 [node name="stage_battle" type="Node2D"]
 pause_mode = 2
@@ -31,3 +32,31 @@ current = true
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="container_menu" type="HBoxContainer" parent="."]
+margin_right = 960.0
+margin_bottom = 540.0
+rect_min_size = Vector2( 960, 540 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="menu_battle_player" parent="container_menu" instance=ExtResource( 2 )]
+
+[node name="menu_enemy_stats" type="MarginContainer" parent="container_menu"]
+margin_left = 670.0
+margin_right = 960.0
+margin_bottom = 540.0
+size_flags_horizontal = 10
+custom_constants/margin_right = 20
+custom_constants/margin_top = 10
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="container_menu/menu_enemy_stats"]
+margin_left = 20.0
+margin_top = 370.0
+margin_right = 270.0
+margin_bottom = 520.0
+rect_min_size = Vector2( 250, 150 )
+size_flags_vertical = 8

@@ -23,6 +23,7 @@ var power_points_max : int = power * 4
 var magic_points_max : int = magic * 4
 var frenzy_points_max : int = frenzy * 4
 var dexterity_points_max : int = dexterity * 4
+export var class_base : String = "warrior" #4 base classes warrior, defender, hunter, mage
 
 #battle stats
 var health_points : int = health #health during battle
@@ -31,6 +32,8 @@ var magic_points : int = magic_points_max
 var frenzy_points : int = frenzy_points_max
 var dexterity_points : int = dexterity_points_max
 var power_points : int = power_points_max
+var limit_points : float #limit points during battle
+var limit_points_max : float = 100 #max number is always 100
 var turn_timer : Timer 
 var char_class : String #character base clas
 
@@ -178,7 +181,7 @@ func _anim_finished(animation):
 func _attack_collision(body):
 	if body.is_in_group("enemy"):
 		body._enemy_hit(strength)
-		print("HIT!")
+		_limit_calc_attack(strength)
 		pass
 	return
 	
@@ -203,4 +206,13 @@ func _new_timer():
 		turn_timer.start()
 		
 	set_physics_process(true)
+	return
+	
+func _limit_calc_attack(strength):
+	limit_points += float(strength) / 4.0
+	utility.emit_signal("update_battle_menu", self)
+	return
+	
+func _limit_calc_defend(damage):
+	
 	return

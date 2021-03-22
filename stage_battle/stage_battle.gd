@@ -10,6 +10,7 @@ func _ready():
 	
 	utility.connect("turn_over", self, "_next_turn")
 	utility.connect("entity_hp_zero", self, "_remove_turn")
+	utility.connect("update_battle_menu", self, "_update_battle_menu")
 	pass # Replace with function body.
 
 
@@ -73,7 +74,8 @@ func _next_turn(key, turn_dict = dict_turn_order):
 	
 	var next_turn = dict_turn_order[dict_turn_order.keys().min()]
 	
-	next_turn.turn_active = true
+	next_turn.turn_active = true #active the next characters turn
+	utility.emit_signal("update_battle_menu", next_turn) #update battle menu for next character
 	return
 	
 func _remove_turn(entity_key):
@@ -82,12 +84,47 @@ func _remove_turn(entity_key):
 
 func _update_battle_menu(character):
 	var battle_menu = $container_menu/menu_battle_player
-	var bar_hp : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/bar_hp")
+	var menu_name : Label= battle_menu.get_node("PanelContainer/VBoxContainer/name")
+	var bar_hp : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/hp_rs_container/bar_hp")
 	var bar_hp_label : Label = bar_hp.get_node("Label")
-	var bar_action : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/bar_action")
+	var bar_action : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/ap_lim_container/bar_action")
 	var bar_action_label : Label = bar_action.get_node("Label")
-	var bar_resource : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/bar_resource")
+	var bar_resource : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/hp_rs_container/bar_resource")
 	var bar_resource_label : Label = bar_resource.get_node("Label")
+	var bar_limit : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/ap_lim_container/bar_limit")
+	var bar_limit_label : Label = bar_limit.get_node("Label")
+	
+	#character variables
+	var char_class = character.class_base
+	
+	#set resource bar
+	if char_class == "warrior":
+		bar_resource.max_value = character.power_points_max
+		bar_resource.set_value(character.power_points)
+		var label_string_resource = "PP: %s/%s"
+		var final_string_resource = label_string_resource % [character.power_points, character.power_points_max]
+		bar_resource_label.set_text(final_string_resource)
+	elif char_class == "defender":
+		bar_resource.max_value = character.frenzy_points_max
+		bar_resource.set_value(character.frenzy_points)
+		var label_string_resource = "FP: %s/%s"
+		var final_string_resource = label_string_resource % [character.frenzy_points, character.frenzy_points_max]
+		bar_resource_label.set_text(final_string_resource)
+	elif char_class == "hunter":
+		bar_resource.max_value = character.dexterity_points_max
+		bar_resource.set_value(character.dexterity_points)
+		var label_string_resource = "DP: %s/%s"
+		var final_string_resource = label_string_resource % [character.dexterity_points, character.dexterity_points_max]
+		bar_resource_label.set_text(final_string_resource)
+	elif char_class == "mage":
+		bar_resource.max_value = character.magic_points_max
+		bar_resource.set_value(character.magic_points)
+		var label_string_resource = "MP: %s/%s"
+		var final_string_resource = label_string_resource % [character.magic_points, character.magic_points_max]
+		bar_resource_label.set_text(final_string_resource)
+	
+	#set name
+#	menu_name.set_text(character.get_name())
 	
 	#set hp bar
 	bar_hp.max_value = character.health
@@ -103,10 +140,10 @@ func _update_battle_menu(character):
 	var final_string_action = label_string_action % [character.action_points, character.action_max]
 	bar_action_label.set_text(final_string_action)
 	
-	#set resource bar
-	bar_resource.max_value = character.power
-	bar_resource.set_value(character.power_points_max)
-	var label_string_resource = "PP: %s/%s"
-	var final_string_resource = label_string_resource % [character.power_points, character.power_points_max]
-	bar_resource_label.set_text(final_string_resource)
+	#set limit bar
+	bar_limit.max_value = character.limit_points_max
+	bar_limit.set_value(character.limit_points)
+	var label_string_limit = "Limit: %s/%s"
+	var final_string_limit = label_string_limit % [character.limit_points, character.limit_points_max]
+	bar_limit_label.set_text(final_string_limit)
 	return

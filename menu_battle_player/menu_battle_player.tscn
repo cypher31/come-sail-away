@@ -13,27 +13,32 @@ __meta__ = {
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 margin_left = 20.0
-margin_top = 366.0
+margin_top = 390.0
 margin_right = 270.0
 margin_bottom = 520.0
-rect_min_size = Vector2( 250, 150 )
+rect_min_size = Vector2( 250, 50 )
 size_flags_vertical = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 243.0
-margin_bottom = 147.0
+margin_bottom = 123.0
 
-[node name="bar_hp" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
+[node name="hp_rs_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 margin_right = 236.0
 margin_bottom = 20.0
+
+[node name="bar_hp" type="ProgressBar" parent="PanelContainer/VBoxContainer/hp_rs_container"]
+margin_right = 116.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
+size_flags_horizontal = 3
 step = 1.0
 rounded = true
 percent_visible = false
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/bar_hp"]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/hp_rs_container/bar_hp"]
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -46,38 +51,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bar_action" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
-margin_top = 24.0
+[node name="bar_resource" type="ProgressBar" parent="PanelContainer/VBoxContainer/hp_rs_container"]
+margin_left = 120.0
 margin_right = 236.0
-margin_bottom = 44.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
-step = 1.0
-rounded = true
-percent_visible = false
-
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/bar_action"]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -7.0
-margin_bottom = 7.0
 size_flags_horizontal = 3
-text = "AP: X/XXXX"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="bar_resource" type="ProgressBar" parent="PanelContainer/VBoxContainer"]
-margin_top = 48.0
-margin_right = 236.0
-margin_bottom = 68.0
-rect_min_size = Vector2( 0, 20 )
 step = 1.0
 rounded = true
 percent_visible = false
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/bar_resource"]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/hp_rs_container/bar_resource"]
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -90,10 +74,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-margin_top = 72.0
+[node name="ap_lim_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 24.0
 margin_right = 236.0
-margin_bottom = 140.0
+margin_bottom = 44.0
+
+[node name="bar_action" type="ProgressBar" parent="PanelContainer/VBoxContainer/ap_lim_container"]
+margin_right = 116.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+size_flags_horizontal = 3
+step = 1.0
+rounded = true
+percent_visible = false
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ap_lim_container/bar_action"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_bottom = 7.0
+size_flags_horizontal = 3
+text = "AP: X/XXXX"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bar_limit" type="ProgressBar" parent="PanelContainer/VBoxContainer/ap_lim_container"]
+margin_left = 120.0
+margin_right = 236.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+size_flags_horizontal = 3
+step = 1.0
+rounded = true
+percent_visible = false
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ap_lim_container/bar_limit"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_bottom = 7.0
+size_flags_horizontal = 3
+text = "Limit: X/XXXX"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 236.0
+margin_bottom = 116.0
 size_flags_vertical = 3
 
 [node name="menu" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]

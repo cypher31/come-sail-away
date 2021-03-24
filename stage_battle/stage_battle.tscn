@@ -17,8 +17,8 @@ script = ExtResource( 1 )
 
 [node name="half_player" type="Container" parent="."]
 margin_right = 480.0
-margin_bottom = 540.0
-rect_min_size = Vector2( 480, 540 )
+margin_bottom = 400.0
+rect_min_size = Vector2( 480, 400 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -27,8 +27,8 @@ __meta__ = {
 [node name="half_enemy" type="Container" parent="."]
 margin_left = 480.0
 margin_right = 960.0
-margin_bottom = 540.0
-rect_min_size = Vector2( 480, 540 )
+margin_bottom = 400.0
+rect_min_size = Vector2( 480, 400 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false

@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+#char variables
 var my_turn : bool = false #check if it is the characters turn or not
 var moving : bool = false #check if player is moving, can't attack while moving
 var direction : Vector2 = Vector2(0,0)
@@ -8,6 +9,8 @@ var timer_attack #variable to hold the timers created to check for attack timing
 var turn_active : bool #variable to check if it is this characters turn or not
 var turn_count : int #variable to check what key this entity was given to remove from turn dict
 var in_battle : bool = false #variable to check if entity is in a battle
+var size_height #for capsule
+var size_width #for capsule
 
 #character stats
 var health : int = 25
@@ -50,6 +53,10 @@ func _ready():
 	#connections
 	$area2d_att_1.connect("body_entered", self, "_attack_collision")
 	$area2d_att_2.connect("body_entered", self, "_attack_collision")
+	
+	#get size of character
+	size_height = $CollisionShape2D.get_shape().height #for capsule
+	size_width = $CollisionShape2D.get_shape().radius #for capsule
 	pass # Replace with function body.
 
 
@@ -87,22 +94,27 @@ func _physics_process(delta):
 		
 	# Movement handling in battle
 	if time_left > 0.01 and turn_active and in_battle:
-		if Input.is_action_pressed("north"):
+		var stage_bound_north = (position.y - size_height / 2) > 0
+		var stage_bound_south = (position.y + size_height / 2) < 400
+		var stage_bound_west = (position.x - size_width) > 0
+		var stage_bound_east = (position.x + size_width / 2) < 960
+		
+		if Input.is_action_pressed("north") and stage_bound_north:
 			direction.x = 0
 			direction.y = -1
 			moving = true
 			turn_timer.set_paused(false)
-		elif Input.is_action_pressed("south"):
+		elif Input.is_action_pressed("south") and stage_bound_south:
 			direction.x = 0
 			direction.y = 1
 			moving = true
 			turn_timer.set_paused(false)
-		elif Input.is_action_pressed("east"):
+		elif Input.is_action_pressed("east") and stage_bound_east:
 			direction.x = 1
 			direction.y = 0
 			moving = true
 			turn_timer.set_paused(false)
-		elif Input.is_action_pressed("west"):
+		elif Input.is_action_pressed("west") and stage_bound_west:
 			direction.x = -1
 			direction.y = 0
 			moving = true

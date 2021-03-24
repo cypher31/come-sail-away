@@ -57,7 +57,7 @@ func spawn_battle(party, enemies, stage):
 		var spawn_area_center : Vector2 = parent_characters_size / 2
 		var position : Vector2
 		var pos_mod_x
-		var pos_mod_y =  - 150 + i * 100
+		var pos_mod_y =  - 125 + i * 90
 		
 		if i % 2 == 0:
 			pos_mod_x = 75
@@ -79,7 +79,7 @@ func spawn_battle(party, enemies, stage):
 		var spawn_area_center : Vector2 = parent_enemy_size / 2
 		var position : Vector2
 		var pos_mod_x
-		var pos_mod_y =  - 150 + j * 100
+		var pos_mod_y =  - 125 + j * 90
 		
 		if j % 2 == 0:
 			pos_mod_x = -75

@@ -5,6 +5,7 @@ extends Node
 signal turn_over #emitted when an entities turn is over
 signal entity_hp_zero #emitted when an entities hp drops to zero
 signal update_battle_menu #emitted when a turn change happens, updates menu for the characters turn
+signal update_battle_time #updates the timer at the bottom of the battle screen
 
 #variables
 var stage_current : String #hold what stage is currently used

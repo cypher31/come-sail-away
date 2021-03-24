@@ -3,15 +3,23 @@ extends KinematicBody2D
 
 #enemy stats
 var health : int = 10
-var health_points : int = health
-var armor = 0
-var speed = 5
+var armor : int = 0
+var speed : int = 5
+var strength : int = 2
+var dexterity : int = 2
 var direction : Vector2 = Vector2(-1,0)
 var moving : bool
-var turn_timer : Timer
+var action_max : int = (speed + strength) * 2 + dexterity
 var turn_active : bool = false #variable to check if it is this characters turn or not
 var turn_count : int #variable to check what key this entity was given to remove from turn dict
 var in_battle : bool #variablet to check if entity is in a battle or not
+
+#battle stats
+var health_points : int = health #health during battle
+var action_points : int = 0 #always starts at zero
+var turn_timer : Timer 
+var char_class : String #character base clas
+var class_base : String = "enemy"
 
 onready var anim_player = $AnimationPlayer
 
@@ -41,7 +49,9 @@ func _physics_process(delta):
 		
 	#turn handling - 
 	if !turn_timer.paused:
-		print(turn_timer.get_time_left())
+		var time_to_show = time_left
+		var format_time = "%3.2f" % time_left
+		utility.emit_signal("update_battle_time", format_time)
 		pass
 	
 	if time_left <= 0.01 and in_battle:

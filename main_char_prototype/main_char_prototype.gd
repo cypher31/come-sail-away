@@ -149,7 +149,9 @@ func _physics_process(delta):
 
 	#turn handling - 
 	if !turn_timer.paused:
-		print(turn_timer.get_time_left())
+		var time_to_show = time_left
+		var format_time = "%3.2f" % time_left
+		utility.emit_signal("update_battle_time", format_time)
 		pass
 	
 	if time_left <= 0.01 and in_battle:

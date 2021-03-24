@@ -11,6 +11,7 @@ func _ready():
 	utility.connect("turn_over", self, "_next_turn")
 	utility.connect("entity_hp_zero", self, "_remove_turn")
 	utility.connect("update_battle_menu", self, "_update_battle_menu")
+	utility.connect("update_battle_time", self, "_update_battle_time")
 	pass # Replace with function body.
 
 
@@ -83,7 +84,7 @@ func _remove_turn(entity_key):
 	return
 
 func _update_battle_menu(character):
-	var battle_menu = $container_menu/menu_battle_player
+	var battle_menu = $container_menu/container_menu_bot/menu_battle_player
 	var menu_name : Label= battle_menu.get_node("PanelContainer/VBoxContainer/name")
 	var bar_hp : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/hp_rs_container/bar_hp")
 	var bar_hp_label : Label = bar_hp.get_node("Label")
@@ -140,10 +141,18 @@ func _update_battle_menu(character):
 	var final_string_action = label_string_action % [character.action_points, character.action_max]
 	bar_action_label.set_text(final_string_action)
 	
+	if char_class == "enemy":
+		return
+	
 	#set limit bar
 	bar_limit.max_value = character.limit_points_max
 	bar_limit.set_value(character.limit_points)
 	var label_string_limit = "Limit: %s/%s"
 	var final_string_limit = label_string_limit % [character.limit_points, character.limit_points_max]
 	bar_limit_label.set_text(final_string_limit)
+	return
+	
+func _update_battle_time(time):
+	var label_time_left : Label = $container_menu/container_menu_bot/container_time/mc/label_time_left
+	label_time_left.set_text(str(time))
 	return

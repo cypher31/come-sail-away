@@ -4,7 +4,7 @@
 margin_right = 290.0
 margin_bottom = 540.0
 custom_constants/margin_right = 20
-custom_constants/margin_top = 10
+custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 __meta__ = {

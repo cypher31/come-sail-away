@@ -124,7 +124,7 @@ func _physics_process(delta):
 			direction.y = 0
 			moving = false
 			turn_timer.set_paused(true)
-		
+	
 	var velocity : Vector2 = direction * speed
 	
 	var collision : KinematicCollision2D = move_and_collide(velocity)

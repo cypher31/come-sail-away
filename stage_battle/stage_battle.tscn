@@ -19,6 +19,7 @@ script = ExtResource( 1 )
 margin_right = 480.0
 margin_bottom = 400.0
 rect_min_size = Vector2( 480, 400 )
+mouse_filter = 1
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -29,6 +30,7 @@ margin_left = 480.0
 margin_right = 960.0
 margin_bottom = 400.0
 rect_min_size = Vector2( 480, 400 )
+mouse_filter = 1
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -69,28 +71,52 @@ __meta__ = {
 [node name="menu_battle_player" parent="container_menu/container_menu_bot" instance=ExtResource( 2 )]
 margin_bottom = 270.0
 
-[node name="container_time" type="VBoxContainer" parent="container_menu/container_menu_bot"]
+[node name="container_round" type="VBoxContainer" parent="container_menu/container_menu_bot"]
 margin_left = 294.0
 margin_right = 625.0
 margin_bottom = 270.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
+custom_constants/separation = 0
 
-[node name="mc" type="MarginContainer" parent="container_menu/container_menu_bot/container_time"]
-margin_top = 175.0
+[node name="hbox_round" type="HBoxContainer" parent="container_menu/container_menu_bot/container_round"]
+margin_top = 140.0
+margin_right = 331.0
+margin_bottom = 195.0
+size_flags_vertical = 10
+
+[node name="label_round_count" type="Label" parent="container_menu/container_menu_bot/container_round/hbox_round"]
+margin_right = 53.0
+margin_bottom = 55.0
+size_flags_vertical = 11
+custom_fonts/font = SubResource( 1 )
+text = "R1"
+align = 1
+valign = 1
+
+[node name="scroll_turn_order" type="ScrollContainer" parent="container_menu/container_menu_bot/container_round/hbox_round"]
+margin_left = 57.0
+margin_right = 331.0
+margin_bottom = 55.0
+mouse_filter = 1
+size_flags_horizontal = 3
+scroll_vertical_enabled = false
+
+[node name="hbox_turn_order" type="HBoxContainer" parent="container_menu/container_menu_bot/container_round/hbox_round/scroll_turn_order"]
+
+[node name="mc_time" type="MarginContainer" parent="container_menu/container_menu_bot/container_round"]
+margin_top = 195.0
 margin_right = 331.0
 margin_bottom = 270.0
-size_flags_vertical = 10
+size_flags_vertical = 8
 custom_constants/margin_right = 20
-custom_constants/margin_top = 20
+custom_constants/margin_top = 0
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="label_time_left" type="Label" parent="container_menu/container_menu_bot/container_time/mc"]
+[node name="label_time_left" type="Label" parent="container_menu/container_menu_bot/container_round/mc_time"]
 margin_left = 20.0
-margin_top = 20.0
 margin_right = 311.0
-margin_bottom = 75.0
+margin_bottom = 55.0
 size_flags_vertical = 10
 custom_fonts/font = SubResource( 1 )
 text = "TIME LEFT"

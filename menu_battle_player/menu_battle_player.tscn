@@ -168,7 +168,6 @@ margin_bottom = 68.0
 size_flags_horizontal = 3
 
 [node name="pop_abilities" type="PopupPanel" parent="PanelContainer/VBoxContainer/HBoxContainer/selection"]
-visible = true
 margin_right = 116.0
 margin_bottom = 68.0
 size_flags_vertical = 3
@@ -193,9 +192,9 @@ size_flags_vertical = 3
 items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false ]
 
 [node name="pop_sp_abilities" type="PopupPanel" parent="PanelContainer/VBoxContainer/HBoxContainer/selection"]
-margin_top = 41.0
+margin_top = 36.0
 margin_right = 116.0
-margin_bottom = 79.0
+margin_bottom = 68.0
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_sp_abilities"]
@@ -212,15 +211,15 @@ __meta__ = {
 
 [node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_sp_abilities/ScrollContainer"]
 margin_right = 108.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false ]
 
 [node name="pop_items" type="PopupPanel" parent="PanelContainer/VBoxContainer/HBoxContainer/selection"]
-margin_top = 55.0
+margin_top = 36.0
 margin_right = 116.0
-margin_bottom = 79.0
+margin_bottom = 68.0
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_items"]
@@ -237,7 +236,7 @@ __meta__ = {
 
 [node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer/HBoxContainer/selection/pop_items/ScrollContainer"]
 margin_right = 108.0
-margin_bottom = 16.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false ]

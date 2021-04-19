@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/prototype/main_char_base.png" type="Texture" id=1]
 [ext_resource path="res://assets/prototype/main_char_prot_att_2png.png" type="Texture" id=2]
 [ext_resource path="res://assets/prototype/main_char_prot_att_1png.png" type="Texture" id=3]
 [ext_resource path="res://main_char_prototypeatt_1.tres" type="Animation" id=4]
 [ext_resource path="res://main_char_prototype/main_char_prototype.gd" type="Script" id=5]
+[ext_resource path="res://icon.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "att_2"
@@ -246,3 +247,13 @@ visible = false
 position = Vector2( -29.0109, 18.7099 )
 polygon = PoolVector2Array( 33.6359, -15.2099, 79.5289, -16.7235, 79.5289, -13.1496, 34.2609, -11.7099 )
 disabled = true
+
+[node name="turn_card" type="TextureRect" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 6 )
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

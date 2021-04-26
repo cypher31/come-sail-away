@@ -13,6 +13,7 @@ var action_max : int = (speed + strength) * 2 + dexterity
 var turn_active : bool = false #variable to check if it is this characters turn or not
 var turn_count : int #variable to check what key this entity was given to remove from turn dict
 var in_battle : bool #variablet to check if entity is in a battle or not
+var enemy_type : String # the type of enemy this script is attached to
 
 #battle stats
 var health_points : int = health #health during battle
@@ -21,12 +22,36 @@ var turn_timer : Timer
 var char_class : String #character base clas
 var class_base : String = "enemy"
 
+var weakness : Dictionary = {
+	"WEAK_1" : "",
+	"WEAK_2" : "",
+	"WEAK_3" : ""
+}
+
+var resist : Dictionary = {
+	"RESIST_1" : "",
+	"RESIST_2" : "",
+	"RESIST_3" : ""
+}
+
 onready var anim_player = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#turn time calc
 	_new_timer()
+	
+	#set weakness & resists
+	if enemy_type != null:
+			if enemy_type == utility.dict_all_enemy.RAVEN.name:
+				var enemy_info_root = utility.dict_all_enemy.RAVEN
+				weakness.WEAK_1 = enemy_info_root.WEAK_1
+				weakness.WEAK_2 = enemy_info_root.WEAK_2
+				weakness.WEAK_3 = enemy_info_root.WEAK_3
+				
+				resist.RESIST_1 = enemy_info_root.RESIST_1
+				resist.RESIST_2 = enemy_info_root.RESIST_2
+				resist.RESIST_3 = enemy_info_root.RESIST_3
 	pass # Replace with function body.
 
 
@@ -103,4 +128,8 @@ func _new_timer():
 		turn_timer.start()
 		
 	set_physics_process(true)
+	return
+	
+func _update_battle_menu(battle_menu):
+	
 	return

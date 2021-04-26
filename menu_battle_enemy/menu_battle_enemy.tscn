@@ -1,0 +1,126 @@
+[gd_scene format=2]
+
+[node name="menu_enemy_stats" type="MarginContainer"]
+margin_left = 670.0
+margin_right = 960.0
+margin_bottom = 270.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 20.0
+margin_top = 126.0
+margin_right = 270.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 250, 50 )
+size_flags_vertical = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 243.0
+margin_bottom = 117.0
+
+[node name="name_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_right = 236.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/name_container"]
+margin_right = 236.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "NAME"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hp_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 236.0
+margin_bottom = 38.0
+
+[node name="bar_hp" type="ProgressBar" parent="PanelContainer/VBoxContainer/hp_container"]
+margin_right = 236.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+size_flags_horizontal = 3
+step = 1.0
+rounded = true
+percent_visible = false
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/hp_container/bar_hp"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_bottom = 7.0
+size_flags_horizontal = 3
+text = "HP: X/XXXX"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="weak_resist_container" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 42.0
+margin_right = 236.0
+margin_bottom = 110.0
+size_flags_vertical = 3
+
+[node name="list_weakness" type="VBoxContainer" parent="PanelContainer/VBoxContainer/weak_resist_container"]
+margin_right = 116.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/weak_resist_container/list_weakness"]
+margin_right = 116.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+text = "WEAK 1"
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/weak_resist_container/list_weakness"]
+margin_top = 24.0
+margin_right = 116.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 0, 20 )
+text = "WEAK 2"
+
+[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/weak_resist_container/list_weakness"]
+margin_top = 48.0
+margin_right = 116.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 0, 20 )
+text = "WEAK 3"
+
+[node name="list_resist" type="VBoxContainer" parent="PanelContainer/VBoxContainer/weak_resist_container"]
+margin_left = 120.0
+margin_right = 236.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/weak_resist_container/list_resist"]
+margin_right = 116.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+text = "RESIST 1"
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/weak_resist_container/list_resist"]
+margin_top = 24.0
+margin_right = 116.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 0, 20 )
+text = "RESIST 2"
+
+[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/weak_resist_container/list_resist"]
+margin_top = 48.0
+margin_right = 116.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 0, 20 )
+text = "RESIST 3"

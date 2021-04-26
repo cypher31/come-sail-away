@@ -224,7 +224,7 @@ func _new_timer():
 	
 func _limit_calc_attack(strength):
 	limit_points += float(strength) / 4.0
-	utility.emit_signal("update_battle_menu", self)
+	utility.emit_signal("update_player_battle_menu", self)
 	return
 	
 func _limit_calc_defend(damage):

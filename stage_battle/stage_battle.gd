@@ -12,7 +12,7 @@ func _ready():
 	
 	utility.connect("turn_over", self, "_next_turn")
 	utility.connect("entity_hp_zero", self, "_remove_turn")
-	utility.connect("update_battle_menu", self, "_update_battle_menu")
+	utility.connect("update_player_battle_menu", self, "_update_player_battle_menu")
 	utility.connect("update_battle_time", self, "_update_battle_time")
 	pass # Replace with function body.
 
@@ -23,7 +23,6 @@ func _ready():
 
 func _turn_manager(entities = all_battle_entities):
 	#turn manager for active members of the battle
-	utility.connect("update_battle_menu", self, "_update_battle_menu")
 	#clear last round if any keys left over
 	dict_turn_order.clear()
 	
@@ -36,7 +35,6 @@ func _turn_manager(entities = all_battle_entities):
 	
 	first_turn.turn_active = true
 	first_turn.turn_count = dict_turn_order.keys().min()
-	utility.emit_signal("update_battle_menu", first_turn)
 	
 	_update_round_order_cards(turn_cards)
 	return
@@ -109,8 +107,13 @@ func _next_turn(key, turn_dict = dict_turn_order):
 	
 	var next_turn = dict_turn_order[dict_turn_order.keys().min()]
 	
-	next_turn.turn_active = true #active the next characters turn
-	utility.emit_signal("update_battle_menu", next_turn) #update battle menu for next character
+	next_turn.turn_active = true #activate the next characters turn
+	
+	if !next_turn.is_in_group("enemy"):
+		utility.emit_signal("update_player_battle_menu", next_turn) #update battle menu for next character
+		print("MENU UPDATED DJA;LKDFJA;")
+	else:
+		utility.emit_signal("update_enemy_battle_menu", next_turn) 
 	return
 	
 func _remove_turn(entity_key):
@@ -124,9 +127,9 @@ func _round_update(round_label : Label):
 	round_label.set_text(new_string)
 	return
 
-func _update_battle_menu(character):
+func _update_player_battle_menu(character):
 	var battle_menu = $container_menu/container_menu_bot/menu_battle_player
-	var menu_name : Label= battle_menu.get_node("PanelContainer/VBoxContainer/name")
+#	var menu_name : Label= battle_menu.get_node("PanelContainer/VBoxContainer/name")
 	var bar_hp : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/hp_rs_container/bar_hp")
 	var bar_hp_label : Label = bar_hp.get_node("Label")
 	var bar_action : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/ap_lim_container/bar_action")
@@ -196,4 +199,15 @@ func _update_battle_menu(character):
 func _update_battle_time(time):
 	var label_time_left : Label = $container_menu/container_menu_bot/container_round/mc_time/label_time_left
 	label_time_left.set_text(str(time))
+	
+	var turn_curr = dict_turn_order[dict_turn_order.keys().min()]
+	
+	if !turn_curr.is_in_group("enemy"):
+		utility.emit_signal("update_player_battle_menu", turn_curr)
+	else:
+		utility.emit_signal("update_enemy_battle_menu", turn_curr)
+	return
+	
+func _change_enemy_focus():
+	
 	return

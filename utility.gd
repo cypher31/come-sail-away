@@ -4,7 +4,8 @@ extends Node
 #signals
 signal turn_over #emitted when an entities turn is over
 signal entity_hp_zero #emitted when an entities hp drops to zero
-signal update_battle_menu #emitted when a turn change happens, updates menu for the characters turn
+signal update_player_battle_menu #emitted when a turn change happens, updates menu for the characters turn
+signal update_enemy_battle_menu
 signal update_battle_time #updates the timer at the bottom of the battle screen
 
 #variables
@@ -22,7 +23,10 @@ var dict_battle : Dictionary = {}
 
 var enemy_prototype = preload("res://enemy_base/enemy_base.tscn")
 
-var dict_all_enemy : Dictionary = {"enemy_prototype" : enemy_prototype}
+var dict_all_enemy : Dictionary = {
+	"enemy_prototype" : enemy_prototype,
+	"RAVEN" : {"name" : "RAVEN", "WEAK_1" : "THUNDER", "WEAK_2" : "FIRE", "WEAK_3" : "null", "RESIST_1" : "WIND", "RESIST_2": "BEAST", "RESIST_3": "null",}
+	}
 
 var dict_battle_enemies : Dictionary = {
 

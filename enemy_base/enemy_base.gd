@@ -1,6 +1,10 @@
 extends KinematicBody2D
 #may use enemies to pass info to battle stage
 
+#signals
+signal focus_on_me
+signal focus_off_me
+
 #enemy stats
 var health : int = 10
 var armor : int = 0
@@ -38,6 +42,10 @@ onready var anim_player = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#signals
+	connect("focus_on_me", self, "_focus_on_me")
+	connect("focus_off_me", self, "_focus_off_me")
+	
 	#turn time calc
 	_new_timer()
 	
@@ -54,6 +62,13 @@ func _ready():
 				resist.RESIST_3 = enemy_info_root.RESIST_3
 	pass # Replace with function body.
 
+func _focus_on_me():
+	$arrow_select.show()
+	return
+
+func _focus_off_me():
+	$arrow_select.hide()
+	return
 
 func _physics_process(delta):
 	if !turn_active:

@@ -7,6 +7,9 @@ signal entity_hp_zero #emitted when an entities hp drops to zero
 signal update_player_battle_menu #emitted when a turn change happens, updates menu for the characters turn
 signal update_enemy_battle_menu
 signal update_battle_time #updates the timer at the bottom of the battle screen
+signal focus_on_me #for changing enemy focus
+signal focus_off_me
+
 
 #variables
 var stage_current : String #hold what stage is currently used
@@ -71,7 +74,9 @@ func spawn_battle(party, enemies, stage):
 		position = Vector2(spawn_area_center.x + pos_mod_x, spawn_area_center.y + pos_mod_y)
 		parent.all_battle_entities[i] = instance_to_spawn
 		i += 1
-
+		
+		parent.all_players[i] = instance_to_spawn #store character in dictionary
+		
 		instance_to_spawn.position = position
 		instance_to_spawn.in_battle = true
 		parent_characters.add_child(instance_to_spawn)
@@ -93,6 +98,8 @@ func spawn_battle(party, enemies, stage):
 		position = Vector2(spawn_area_center.x + pos_mod_x, spawn_area_center.y + pos_mod_y)
 		parent.all_battle_entities[i+j] = instance_to_spawn
 		j += 1
+		
+		parent.all_enemies[j] = instance_to_spawn #store enemy in dictionary
 		
 		instance_to_spawn.in_battle = true
 		instance_to_spawn.position = position

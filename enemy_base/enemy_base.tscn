@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://enemy_base/enemy_base.gd" type="Script" id=2]
+[ext_resource path="res://arrow_turn/arrow_turn.tscn" type="PackedScene" id=3]
+[ext_resource path="res://arrow_select/arrow_select.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "hit"
@@ -42,3 +44,17 @@ texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="arrow_turn" parent="." instance=ExtResource( 3 )]
+visible = false
+margin_left = -16.0
+margin_top = -56.0
+margin_right = 18.0
+margin_bottom = -40.0
+
+[node name="arrow_select" parent="." instance=ExtResource( 4 )]
+visible = false
+margin_left = -16.0
+margin_top = -56.0
+margin_right = 18.0
+margin_bottom = -40.0

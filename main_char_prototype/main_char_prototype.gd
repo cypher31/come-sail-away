@@ -158,6 +158,12 @@ func _physics_process(delta):
 				anim_player.play("idle")
 				turn_timer.set_paused(true)
 				pass
+			
+			if Input.is_action_just_pressed("focus_change_enemy_up"):
+				utility.emit_signal("focus_on_me", 1)
+				pass
+			elif Input.is_action_just_pressed("focus_change_enemy_down"):
+				utility.emit_signal("focus_on_me", -1)
 
 	#turn handling - 
 	if !turn_timer.paused:

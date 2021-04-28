@@ -2,9 +2,12 @@ extends Node2D
 
 #scene that handles all aspects of the battle phase
 var all_battle_entities : Dictionary
+var all_enemies : Dictionary
+var all_players : Dictionary
 var dict_turn_order : Dictionary
 
 var curr_round : int = 1
+var curr_enemy_focus : int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,12 +17,38 @@ func _ready():
 	utility.connect("entity_hp_zero", self, "_remove_turn")
 	utility.connect("update_player_battle_menu", self, "_update_player_battle_menu")
 	utility.connect("update_battle_time", self, "_update_battle_time")
+	
+	utility.connect("focus_on_me", self, "_focus_change_enemy")
+	utility.connect("focus_off_me", self, "_focus_change_enemy")
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _focus_change_enemy(tick):
+	var max_enemy_count = all_enemies.size()
+	var curr_key = curr_enemy_focus
+	var new_key = curr_key + tick
+	
+	if tick == 1:
+		if new_key < max_enemy_count:
+			curr_key += 1
+			all_enemies[curr_key - 1].emit_signal("focus_off_me")
+			all_enemies[curr_key].emit_signal("focus_on_me")
+		else:
+			curr_key = all_enemies.keys().min()
+			all_enemies[all_enemies.keys().max()].emit_signal("focus_off_me")
+			all_enemies[curr_key].emit_signal("focus_on_me")
+	elif tick == -1:
+		if new_key > 0:
+			curr_key -= 1
+			all_enemies[curr_key + 1].emit_signal("focus_off_me")
+			all_enemies[curr_key].emit_signal("focus_on_me")
+		else:
+			curr_key = all_enemies.keys().max()
+			all_enemies[all_enemies.keys().min()].emit_signal("focus_off_me")
+			all_enemies[curr_key].emit_signal("focus_on_me")
+	
+	curr_enemy_focus = curr_key
+	return
 
 func _turn_manager(entities = all_battle_entities):
 	#turn manager for active members of the battle
@@ -35,6 +64,7 @@ func _turn_manager(entities = all_battle_entities):
 	
 	first_turn.turn_active = true
 	first_turn.turn_count = dict_turn_order.keys().min()
+	first_turn.get_node("arrow_turn").show()
 	
 	_update_round_order_cards(turn_cards)
 	return
@@ -98,6 +128,9 @@ func _update_round_order_cards(cards):
 	return
 
 func _next_turn(key, turn_dict = dict_turn_order):
+	var curr_turn = dict_turn_order[dict_turn_order.keys().min()]
+	curr_turn.get_node("arrow_turn").hide()
+	
 	turn_dict.erase(key)
 	
 	if turn_dict.size() == 0:
@@ -108,6 +141,7 @@ func _next_turn(key, turn_dict = dict_turn_order):
 	var next_turn = dict_turn_order[dict_turn_order.keys().min()]
 	
 	next_turn.turn_active = true #activate the next characters turn
+	next_turn.get_node("arrow_turn").show()
 	
 	if !next_turn.is_in_group("enemy"):
 		utility.emit_signal("update_player_battle_menu", next_turn) #update battle menu for next character

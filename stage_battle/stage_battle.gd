@@ -24,28 +24,41 @@ func _ready():
 
 
 func _focus_change_enemy(tick):
-	var max_enemy_count = all_enemies.size()
+	#count number of active enemies
+	var max_enemy_count : int
+	for enemy in all_enemies:
+		if all_enemies[enemy] != null:
+			max_enemy_count += 1
+		else:
+			all_enemies.erase(enemy)
+	
 	var curr_key = curr_enemy_focus
 	var new_key = curr_key + tick
 	
-	if tick == 1:
-		if new_key < max_enemy_count:
-			curr_key += 1
-			all_enemies[curr_key - 1].emit_signal("focus_off_me")
-			all_enemies[curr_key].emit_signal("focus_on_me")
-		else:
-			curr_key = all_enemies.keys().min()
-			all_enemies[all_enemies.keys().max()].emit_signal("focus_off_me")
-			all_enemies[curr_key].emit_signal("focus_on_me")
-	elif tick == -1:
-		if new_key > 0:
-			curr_key -= 1
-			all_enemies[curr_key + 1].emit_signal("focus_off_me")
-			all_enemies[curr_key].emit_signal("focus_on_me")
-		else:
-			curr_key = all_enemies.keys().max()
-			all_enemies[all_enemies.keys().min()].emit_signal("focus_off_me")
-			all_enemies[curr_key].emit_signal("focus_on_me")
+	if all_enemies.size() > 1:
+		if tick == 1:
+			if new_key <= max_enemy_count:
+				curr_key += 1
+				all_enemies[curr_key - 1].emit_signal("focus_off_me")
+				all_enemies[curr_key].emit_signal("focus_on_me")
+			else:
+				curr_key = all_enemies.keys().min()
+				all_enemies[all_enemies.keys().max()].emit_signal("focus_off_me")
+				all_enemies[curr_key].emit_signal("focus_on_me")
+		elif tick == -1:
+			if new_key > 0:
+				curr_key -= 1
+				all_enemies[curr_key + 1].emit_signal("focus_off_me")
+				all_enemies[curr_key].emit_signal("focus_on_me")
+			else:
+				curr_key = all_enemies.keys().max()
+				all_enemies[all_enemies.keys().min()].emit_signal("focus_off_me")
+				all_enemies[curr_key].emit_signal("focus_on_me")
+	elif all_enemies.size() == 1:
+		curr_key = all_enemies.keys().min()
+		all_enemies[curr_key].emit_signal("focus_on_me")
+	else:
+		print("NO ENEMIES LEFT")
 	
 	curr_enemy_focus = curr_key
 	return
@@ -58,7 +71,7 @@ func _turn_manager(entities = all_battle_entities):
 	#add all party members/enemies into entity dict 
 	dict_turn_order = _calc_turns(entities)
 	
-	var turn_cards : Array = _get_turn_cards(entities)
+	var turn_cards : Dictionary = _get_turn_cards(dict_turn_order)
 	
 	var first_turn = dict_turn_order[dict_turn_order.keys().min()]
 	
@@ -100,36 +113,47 @@ func _calc_turns(entities):
 	return dict_turn_order_temp
 
 func _get_turn_cards(entities):
-	var turn_card_order : Array = []
-	
-	for unit in entities:
-		if entities[unit] == null: #if unit has been killed skip
-			continue
-		
-		if !entities[unit].is_in_group("enemy"):
-			if entities[unit].fainted == true: #if a player unit has fainted, skip it
-				continue
-			
-		var id = entities[unit].get_instance_id()
+	var turn_card_order : Dictionary = {}
+	var temp_dict = entities.duplicate()
+#	for unit in entities:
+#		if entities[unit] == null: #if unit has been killed skip
+#			continue
+#
+#		if !entities[unit].is_in_group("enemy"):
+#			if entities[unit].fainted == true: #if a player unit has fainted, skip it
+#				continue
+
+	for i in range(0, entities.size()):
+		var id = temp_dict[temp_dict.keys().min()].get_instance_id()
 		var curr_unit = instance_from_id(id)
 		var turn_card : TextureRect = curr_unit.get_node("turn_card")
 		
-		turn_card_order.append(turn_card)
+		turn_card_order[temp_dict.keys().min()] = turn_card
+		temp_dict.erase(temp_dict.keys().min())
 	return turn_card_order
 
 func _update_round_order_cards(cards):
 	var turn_card_container : HBoxContainer = $container_menu/container_menu_bot/container_round/hbox_round/scroll_turn_order/hbox_turn_order
 
 	for card in cards:
-		var texture = card.get_texture()
+		var texture = cards[card].get_texture()
 		var texture_rect = TextureRect.new()
 		texture_rect.set_texture(texture)
+		texture_rect.set_name(str(card))
 		turn_card_container.add_child(texture_rect)
+	return
+	
+func _remove_turn_card(card_name):
+	var turn_card_container : HBoxContainer = $container_menu/container_menu_bot/container_round/hbox_round/scroll_turn_order/hbox_turn_order
+	
+	turn_card_container.get_node(str(card_name)).queue_free()
 	return
 
 func _next_turn(key, turn_dict = dict_turn_order):
 	var curr_turn = dict_turn_order[dict_turn_order.keys().min()]
 	curr_turn.get_node("arrow_turn").hide()
+	#remove the card of the last entities turn
+	_remove_turn_card(dict_turn_order.keys().min())
 	
 	turn_dict.erase(key)
 	
@@ -152,6 +176,7 @@ func _next_turn(key, turn_dict = dict_turn_order):
 	
 func _remove_turn(entity_key):
 	dict_turn_order.erase(entity_key)
+	_remove_turn_card(entity_key)
 	return
 
 func _round_update(round_label : Label):

@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/prototype/main_char_prot_att_1png.png" type="Texture" id=3]
 [ext_resource path="res://main_char_prototypeatt_1.tres" type="Animation" id=4]
 [ext_resource path="res://main_char_prototype/main_char_prototype.gd" type="Script" id=5]
-[ext_resource path="res://icon.png" type="Texture" id=6]
+[ext_resource path="res://assets/prototype/proto_card.png" type="Texture" id=6]
 [ext_resource path="res://arrow_turn/arrow_turn.tscn" type="PackedScene" id=7]
 [ext_resource path="res://arrow_select/arrow_select.tscn" type="PackedScene" id=9]
 
@@ -255,7 +255,6 @@ visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 texture = ExtResource( 6 )
-flip_v = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

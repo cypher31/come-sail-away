@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+#signals
+signal focus_on_me
+signal focus_off_me
+
 #char variables
 var my_turn : bool = false #check if it is the characters turn or not
 var moving : bool = false #check if player is moving, can't attack while moving
@@ -53,6 +57,9 @@ func _ready():
 	#connections
 	$area2d_att_1.connect("body_entered", self, "_attack_collision")
 	$area2d_att_2.connect("body_entered", self, "_attack_collision")
+	
+	connect("focus_on_me", self, "_focus_on_me")
+	connect("focus_off_me", self, "_focus_off_me")
 	
 	#get size of character
 	size_height = $CollisionShape2D.get_shape().height #for capsule
@@ -164,6 +171,11 @@ func _physics_process(delta):
 				pass
 			elif Input.is_action_just_pressed("focus_change_enemy_down"):
 				utility.emit_signal("focus_on_me", -1)
+				
+			if Input.is_action_just_pressed("focus_change_player_up"):
+				utility.emit_signal("focus_player_switch_on", 1)
+			elif Input.is_action_just_pressed("focus_change_player_down"):
+				utility.emit_signal("focus_player_switch_on", -1)
 
 	#turn handling - 
 	if !turn_timer.paused:
@@ -235,4 +247,12 @@ func _limit_calc_attack(strength):
 	
 func _limit_calc_defend(damage):
 	
+	return
+	
+func _focus_on_me():
+	$arrow_select.show()
+	return
+
+func _focus_off_me():
+	$arrow_select.hide()
 	return

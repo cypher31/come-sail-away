@@ -8,6 +8,7 @@ var dict_turn_order : Dictionary
 
 var curr_round : int = 1
 var curr_enemy_focus : int = 1
+var curr_player_focus : int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,9 +20,54 @@ func _ready():
 	utility.connect("update_battle_time", self, "_update_battle_time")
 	
 	utility.connect("focus_on_me", self, "_focus_change_enemy")
-	utility.connect("focus_off_me", self, "_focus_change_enemy")
+#	utility.connect("focus_off_me", self, "_focus_change_enemy")
+	
+	utility.connect("focus_player_switch_on", self, "_focus_change_player")
 	pass # Replace with function body.
 
+func _focus_change_player(tick):
+	#count number of active party members
+	var max_party_count : int
+	for player in all_players:
+		if all_players[player] != null:
+			max_party_count += 1
+		else:
+			all_players.erase(player)
+			
+	var curr_key = curr_player_focus
+	
+#	if curr_key > all_players.size():
+#		curr_key = all_players.keys().min()
+#	if curr_key < 0:
+#		curr_key = all_players.keys().max()
+	
+	if all_players.size() > 1:
+		if tick == 1:
+			if curr_key < max_party_count:
+				all_players[curr_key].emit_signal("focus_off_me")
+				all_players[curr_key + tick].emit_signal("focus_on_me")
+				curr_key += tick
+			else:
+				curr_key = all_players.keys().min()
+				all_players[all_players.keys().max()].emit_signal("focus_off_me")
+				all_players[curr_key].emit_signal("focus_on_me")
+		elif tick == -1:
+			if curr_key > 1:
+				all_players[curr_key].emit_signal("focus_off_me")
+				all_players[curr_key + tick].emit_signal("focus_on_me")
+				curr_key += tick
+			else:
+				curr_key = all_players.keys().max()
+				all_players[all_players.keys().min()].emit_signal("focus_off_me")
+				all_players[curr_key].emit_signal("focus_on_me")
+	elif all_players.size() == 1:
+		curr_key = all_players.keys().min()
+		all_players[curr_key].emit_signal("focus_on_me")
+	else:
+		print("NO Players LEFT")
+	
+	curr_player_focus = curr_key
+	return
 
 func _focus_change_enemy(tick):
 	#count number of active enemies
@@ -38,18 +84,18 @@ func _focus_change_enemy(tick):
 	if all_enemies.size() > 1:
 		if tick == 1:
 			if new_key <= max_enemy_count:
-				curr_key += 1
+				curr_key += tick
 				all_enemies[curr_key - 1].emit_signal("focus_off_me")
-				all_enemies[curr_key].emit_signal("focus_on_me")
+				all_enemies[new_key].emit_signal("focus_on_me")
 			else:
 				curr_key = all_enemies.keys().min()
 				all_enemies[all_enemies.keys().max()].emit_signal("focus_off_me")
 				all_enemies[curr_key].emit_signal("focus_on_me")
 		elif tick == -1:
 			if new_key > 0:
-				curr_key -= 1
+				curr_key += tick
 				all_enemies[curr_key + 1].emit_signal("focus_off_me")
-				all_enemies[curr_key].emit_signal("focus_on_me")
+				all_enemies[new_key].emit_signal("focus_on_me")
 			else:
 				curr_key = all_enemies.keys().max()
 				all_enemies[all_enemies.keys().min()].emit_signal("focus_off_me")
@@ -80,6 +126,18 @@ func _turn_manager(entities = all_battle_entities):
 	first_turn.get_node("arrow_turn").show()
 	
 	_update_round_order_cards(turn_cards)
+	
+	#fill up party dict for focus change
+	all_players.clear()
+	var i : int = 1
+	for entity in dict_turn_order:
+		if !dict_turn_order[entity].is_in_group("enemy"):
+			all_players[i] = dict_turn_order[entity]
+			
+			if dict_turn_order[entity].turn_active:
+				curr_player_focus = i
+			
+			i += 1
 	return
 	
 func _calc_turns(entities):

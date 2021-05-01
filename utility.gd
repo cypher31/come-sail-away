@@ -9,6 +9,8 @@ signal update_enemy_battle_menu
 signal update_battle_time #updates the timer at the bottom of the battle screen
 signal focus_on_me #for changing enemy focus
 signal focus_off_me
+signal focus_player_switch_on
+signal focus_player_switch_off
 
 
 #variables

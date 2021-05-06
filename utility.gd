@@ -11,6 +11,7 @@ signal focus_on_me #for changing enemy focus
 signal focus_off_me
 signal focus_player_switch_on
 signal focus_player_switch_off
+signal remove_other_enemy_focus
 
 
 #variables
@@ -29,8 +30,8 @@ var dict_battle : Dictionary = {}
 var enemy_prototype = preload("res://enemy_base/enemy_base.tscn")
 
 var dict_all_enemy : Dictionary = {
-	"enemy_prototype" : enemy_prototype,
-	"RAVEN" : {"name" : "RAVEN", "WEAK_1" : "THUNDER", "WEAK_2" : "FIRE", "WEAK_3" : "null", "RESIST_1" : "WIND", "RESIST_2": "BEAST", "RESIST_3": "null",}
+	"enemy_prototype" : {"instance" : enemy_prototype, "name" : "enemy_prototype", "WEAK_1" : "THUNDER", "WEAK_2" : "FIRE", "RESIST_1" : "WIND", "RESIST_2": "BEAST"},
+	"RAVEN" : {"name" : "RAVEN", "WEAK_1" : "THUNDER", "WEAK_2" : "FIRE", "RESIST_1" : "WIND", "RESIST_2": "BEAST"}
 	}
 
 var dict_battle_enemies : Dictionary = {
@@ -86,7 +87,7 @@ func spawn_battle(party, enemies, stage):
 		
 	var j : int = 0
 	for enemy in enemies:
-		var instance_to_spawn = enemies[enemy].instance()
+		var instance_to_spawn = enemies[enemy]["instance"].instance()
 		var spawn_area_center : Vector2 = parent_enemy_size / 2
 		var position : Vector2
 		var pos_mod_x
@@ -104,6 +105,7 @@ func spawn_battle(party, enemies, stage):
 		parent.all_enemies[j] = instance_to_spawn #store enemy in dictionary
 		
 		instance_to_spawn.in_battle = true
+		instance_to_spawn.enemy_type = enemies[enemy]["name"]
 		instance_to_spawn.position = position
 		parent_enemy.add_child(instance_to_spawn)
 		pass

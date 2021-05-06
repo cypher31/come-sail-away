@@ -23,6 +23,10 @@ func _ready():
 #	utility.connect("focus_off_me", self, "_focus_change_enemy")
 	
 	utility.connect("focus_player_switch_on", self, "_focus_change_player")
+	
+	utility.connect("update_enemy_battle_menu", self, "_update_enemy_battle_menu")
+	
+	_focus_change_enemy(1) #set the default focus on a certain enemy
 	pass # Replace with function body.
 
 func _focus_change_player(tick):
@@ -35,6 +39,19 @@ func _focus_change_player(tick):
 			all_players.erase(player)
 			
 	var curr_key = curr_player_focus
+	
+	#check if this key is the current player; add extra tick if true
+	var key_check  : int = curr_key + tick
+	
+	if key_check > all_players.size():
+		key_check = all_players.keys().min()
+	elif key_check == 0:
+		key_check = all_players.keys().max()
+		
+	if all_players[key_check].turn_active:
+		curr_key += tick
+		print("skipped current player focus")
+		all_players[curr_key - tick].emit_signal("focus_off_me") #need to handle this here when skipping current turn
 	
 #	if curr_key > all_players.size():
 #		curr_key = all_players.keys().min()
@@ -204,7 +221,8 @@ func _update_round_order_cards(cards):
 func _remove_turn_card(card_name):
 	var turn_card_container : HBoxContainer = $container_menu/container_menu_bot/container_round/hbox_round/scroll_turn_order/hbox_turn_order
 	
-	turn_card_container.get_node(str(card_name)).queue_free()
+	if turn_card_container.has_node(str(card_name)):
+		turn_card_container.get_node(str(card_name)).queue_free()
 	return
 
 func _next_turn(key, turn_dict = dict_turn_order):
@@ -228,8 +246,8 @@ func _next_turn(key, turn_dict = dict_turn_order):
 	if !next_turn.is_in_group("enemy"):
 		utility.emit_signal("update_player_battle_menu", next_turn) #update battle menu for next character
 		print("MENU UPDATED DJA;LKDFJA;")
-	else:
-		utility.emit_signal("update_enemy_battle_menu", next_turn) 
+#	else:
+#		utility.emit_signal("update_enemy_battle_menu", next_turn) #probably only going to update enemy menu on player actions
 	return
 	
 func _remove_turn(entity_key):
@@ -312,7 +330,54 @@ func _update_player_battle_menu(character):
 	var final_string_limit = label_string_limit % [character.limit_points, character.limit_points_max]
 	bar_limit_label.set_text(final_string_limit)
 	return
+
+func _update_enemy_battle_menu(enemy_type, hp_max, hp_curr, weak, resist):
+	var battle_menu = $container_menu/container_menu_bot/menu_battle_enemy
+	var enemy_name : Label = battle_menu.get_node("PanelContainer/VBoxContainer/name_container/Label") 
+	var hp_bar : ProgressBar = battle_menu.get_node("PanelContainer/VBoxContainer/hp_container/bar_hp")
+	var hp_bar_label : Label = hp_bar.get_node("Label")
+	var list_weak = $container_menu/container_menu_bot/menu_battle_enemy/PanelContainer/VBoxContainer/weak_resist_container/list_weakness
+	var weak_1_label : Label = list_weak.get_node("Label1")
+	var weak_2_label : Label = list_weak.get_node("Label2")
+	var list_resist = $container_menu/container_menu_bot/menu_battle_enemy/PanelContainer/VBoxContainer/weak_resist_container/list_resist
+	var resist_1_label : Label = list_resist.get_node("Label1")
+	var resist_2_label : Label = list_resist.get_node("Label2")
 	
+	enemy_name.set_text(enemy_type)
+	
+	hp_bar.max_value = hp_max
+	hp_bar.value = hp_curr
+	var hp_bar_text : String = "HP: %s/%s"
+	var hp_bar_text_fin : String = hp_bar_text % [str(hp_curr), str(hp_max)]
+	hp_bar_label.set_text(hp_bar_text_fin)
+	
+	var text_weak1 = weak["WEAK_1"]
+	var text_weak2 = weak["WEAK_2"]
+	
+	if text_weak1 == "null":
+		text_weak1 = ""
+		
+	if text_weak2 == "null":
+		text_weak2 = ""
+		
+	
+	weak_1_label.set_text(text_weak1)
+	weak_2_label.set_text(text_weak2)
+	
+	var text_resist1 = resist["RESIST_1"]
+	var text_resist2 = resist["RESIST_2"]
+	
+	if text_resist1 == "null":
+		text_resist1 = ""
+		
+	if text_resist2 == "null":
+		text_resist2 = ""
+		
+	
+	resist_1_label.set_text(text_resist1)
+	resist_2_label.set_text(text_resist2)
+	return
+
 func _update_battle_time(time):
 	var label_time_left : Label = $container_menu/container_menu_bot/container_round/mc_time/label_time_left
 	label_time_left.set_text(str(time))
@@ -321,8 +386,8 @@ func _update_battle_time(time):
 	
 	if !turn_curr.is_in_group("enemy"):
 		utility.emit_signal("update_player_battle_menu", turn_curr)
-	else:
-		utility.emit_signal("update_enemy_battle_menu", turn_curr)
+#	else:
+#		utility.emit_signal("update_enemy_battle_menu", turn_curr)
 	return
 	
 func _change_enemy_focus():

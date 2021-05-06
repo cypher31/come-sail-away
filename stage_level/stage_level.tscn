@@ -12,3 +12,4 @@ current = true
 
 [node name="enemy_base" parent="." instance=ExtResource( 2 )]
 position = Vector2( 294.923, 118.921 )
+enemy_type = "RAVEN"

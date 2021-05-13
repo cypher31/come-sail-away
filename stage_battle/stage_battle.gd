@@ -10,9 +10,12 @@ var curr_round : int = 1
 var curr_enemy_focus : int = 1
 var curr_player_focus : int = 1
 
+var all_enemies_count : int = 0 #tracker for number of enemies left in battle
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	utility.spawn_battle(utility.dict_party, utility.dict_battle_enemies, self)
+	all_enemies_count = all_enemies.size()
 	
 	utility.connect("turn_over", self, "_next_turn")
 	utility.connect("entity_hp_zero", self, "_remove_turn")
@@ -246,13 +249,15 @@ func _next_turn(key, turn_dict = dict_turn_order):
 	if !next_turn.is_in_group("enemy"):
 		utility.emit_signal("update_player_battle_menu", next_turn) #update battle menu for next character
 		print("MENU UPDATED DJA;LKDFJA;")
-#	else:
-#		utility.emit_signal("update_enemy_battle_menu", next_turn) #probably only going to update enemy menu on player actions
+
+
 	return
 	
 func _remove_turn(entity_key):
 	dict_turn_order.erase(entity_key)
 	_remove_turn_card(entity_key)
+	all_enemies_count -= 1
+	_battle_over_check()
 	return
 
 func _round_update(round_label : Label):
@@ -392,4 +397,10 @@ func _update_battle_time(time):
 	
 func _change_enemy_focus():
 	
+	return
+	
+func _battle_over_check():
+	#check if there are still any enemies left
+	if all_enemies_count == 0:
+		print("BATTLE OVER")
 	return
